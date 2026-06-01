@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de gestión</title>
+    <link rel="stylesheet" href="estilos/estilos.css">
+    <link rel="icon" href="recursos/img/verifiedIcono.png">
+</head>
+
+<body>
+
+    <header>
+        <h2>Sistema de gestión</h2>
+        <h3>(Más Lukinskas - Piacenza)</h3>
+    </header>
+
+    <section>
+        <h3>Manejo de influencers</h3>
+        <article class="alta">
+            <h4>Alta de influencers</h4>
+            <button id="botonAgregarInfluencer">Agregar influencer</button>
+        </article>
+        <dialog id="modalInfluencer">
+            <article class="datosAgregar">
+                <h4> Datos del influencer a agregar </h4>
+                <h5>Influencer:</h5>
+                <form action="submit" id="formInfluencer" class="formulario">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" id="nombre" required>
+                    <label for="mail">Mail</label>
+                    <input type="email" id="mail" required>
+                    <label for="comision">%Comisión</label>
+                    <input max="100" min="0" type="number" name="comision" id="comision" required>
+                    <div>
+                        <button type="button" id="botonCancelarInfluencer" class="botonCancelar">Cancelar</button>
+                        <button type="submit" class="botonAgregar">Agregar</button>
+                    </div>
+                </form>
+            </article>
+        </dialog>
+        <article class="tabla">
+            <h4>Tabla de influencers</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th><button> Nombre ⇅ </button></th>
+                        <th>Email</th>
+                        <th>% Comisión</th>
+                        <th>Total a cobrar</th>
+                        <th>Etiquetas</th>
+                        <th>Detalle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ana Pérez</td>
+                        <td>ana.perez@email.com</td>
+                        <td>20%</td>
+                        <td>$600</td>
+                        <td>🔥🟢</td>
+                        <td><button>Ventas</button></td>
+                    </tr>
+                    <tr>
+                        <td>Juan Gómez</td>
+                        <td>juan.gomez@email.com</td>
+                        <td>10%</td>
+                        <td>$30</td>
+                        <td></td>
+                        <td><button>Ventas</button></td>
+                    </tr>
+                    <tr>
+                        <td>Lucía Martínez</td>
+                        <td>lucia.martinez@email.com</td>
+                        <td>95%</td>
+                        <td>$0</td>
+                        <td>🧊</td>
+                        <td><button>Ventas</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Información: 🔥 Top comisión. (Cobra más $)
+                🧊 Cero ventas. 🟢 Venta más cara. (mayor monto en una
+                sola venta)
+            </p>
+        </article>
+    </section>
+
+    <section>
+        <h3>Manejo de artículos</h3>
+        <article class="alta">
+            <h4>Alta de artículos</h4>
+                <button id="botonAgregarArticulo">Agregar artículo</button>
+        </article>
+        <dialog id="modalArticulo">
+            <article class="datosAgregar">
+                <h4> Datos del artículo a agregar </h4>
+                <form action="submit" id="formArticulo" class="formulario">
+                    <label for="codigo">Código</label>
+                    <input type="text" name="codigo" id="codigo" required>
+                    <label for="descripcion">Descripción</label>
+                    <input type="text" name="descripcion" id="descripcion" required>
+                    <label for="precio">Precio</label>
+                    <input type="number" name="precio" id="precio" required>
+                    <div>
+                        <button type="button" id="botonCancelarArticulo" class="botonCancelar">Cancelar</button>
+                        <button type="submit" class="botonAgregar">Agregar</button>
+                    </div>
+                </form>
+            </article>
+        </dialog>
+        <article class="tabla">
+            <h4>Tabla de artículos</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th><button> Código ⇅ </button></th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A001 ⭐</td>
+                        <td>Remera algodón básica</td>
+                        <td>$1000</td>
+                    </tr>
+                    <tr>
+                        <td>A002</td>
+                        <td>Zapatillas deportivas</td>
+                        <td>$300</td>
+                    </tr>
+                    <tr>
+                        <td>A003</td>
+                        <td>Gorra ajustable</td>
+                        <td>$300</td>
+                    </tr>
+                </tbody>
+            </table>
+            </tbody>
+            </table>
+            <p>Información: ⭐ Artículo más vendido.
+                (Mayor cantidad de unidades vendidas)</p>
+        </article>
+    </section>
+
+    <section>
+        <h3 id="manejoTexto">Manejo de ventas</h3>
+        <article class="alta">
+            <h4>Alta de ventas</h4>
+            <button>Agregar venta</button>
+        </article>
+        <article class="datosAgregar">
+            <h4> Datos de la venta a agregar </h4>
+            <form action="submit" class="formulario">
+                <p class="pVenta">Nro. 3</p>
+                <label class="labelVenta" for="articulo">Artículo</label>
+                <select name="articulo" id="articulo" required>
+                    <option value=""></option>
+                    <option value="A001">Remera algodón básica</option>
+                    <option value="A002">Zapatillas deportivas</option>
+                    <option value="A003">Gorra ajustable</option>
+                </select>
+                <label class="labelVenta" for="influencer">Influencer</label>
+                <select name="influencer" id="influencer" required>
+                    <option value=""></option>
+                    <option value="I001">Juan Pérez</option>
+                    <option value="I002">María García</option>
+                    <option value="I003">Carlos López</option>
+                </select>
+                <label class="labelVenta" for="cantidad">Cantidad</label>
+                <input class="inputNum" type="number" name="cantidad" id="cantidad" min="1" required>
+                <label class="labelVenta" for="medio">Medio de difusión</label>
+                <select name="medio" id="medio" required>
+                    <option value=""></option>
+                    <option value="instagram">1- Instagram</option>
+                    <option value="youtube">2- Youtube</option>
+                </select>
+                <div>
+                    <button type="button" class="botonCancelar">Cancelar</button>
+                    <button type="submit" class="botonAgregar">Agregar</button>
+                </div>
+            </form>
+        </article>
+        <article class="tabla">
+            <h4>Tabla de ventas (ordenada por número de ventas)</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nro. de venta</th>
+                        <th>Código de artículo</th>
+                        <th>Nombre de influencer</th>
+                        <th>Cantidad</th>
+                        <th>Medio</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>A001</td>
+                        <td>Ana Pérez</td>
+                        <td>3</td>
+                        <td>1-Instagram</td>
+                        <td><button>❌</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>A002</td>
+                        <td>Juan Gomez</td>
+                        <td>1</td>
+                        <td>2- Youtube</td>
+                        <td><button>❌</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+        <article>
+            <h4>Gráfico de burbujas:</h4>
+        </article>
+    </section>
+
+    <footer>
+        <h4>Página desarrollada por <a href="https://www.instagram.com/mateo_mas_/">Mateo Más Lukinskas</a> y <a
+                href="https://www.instagram.com/luca.piacenza_/">Luca Piacenza</a></h4>
+    </footer>
+
+</body>
+<script src="logica/logica.js"></script>
+
+</html>
