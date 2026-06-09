@@ -45,7 +45,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th><button> Nombre ⇅ </button></th>
+                        <th><button id="botonOrdenInfluencers"> Nombre ⇅ </button></th>
                         <th>Email</th>
                         <th>% Comisión</th>
                         <th>Total a cobrar</th>
@@ -53,32 +53,7 @@
                         <th>Detalle</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Ana Pérez</td>
-                        <td>ana.perez@email.com</td>
-                        <td>20%</td>
-                        <td>$600</td>
-                        <td>🔥🟢</td>
-                        <td><button>Ventas</button></td>
-                    </tr>
-                    <tr>
-                        <td>Juan Gómez</td>
-                        <td>juan.gomez@email.com</td>
-                        <td>10%</td>
-                        <td>$30</td>
-                        <td></td>
-                        <td><button>Ventas</button></td>
-                    </tr>
-                    <tr>
-                        <td>Lucía Martínez</td>
-                        <td>lucia.martinez@email.com</td>
-                        <td>95%</td>
-                        <td>$0</td>
-                        <td>🧊</td>
-                        <td><button>Ventas</button></td>
-                    </tr>
-                </tbody>
+                <tbody id="tablaInfluencers"></tbody>
             </table>
             <p>Información: 🔥 Top comisión. (Cobra más $)
                 🧊 Cero ventas. 🟢 Venta más cara. (mayor monto en una
@@ -91,7 +66,7 @@
         <h3>Manejo de artículos</h3>
         <article class="alta">
             <h4>Alta de artículos</h4>
-                <button id="botonAgregarArticulo">Agregar artículo</button>
+            <button id="botonAgregarArticulo">Agregar artículo</button>
         </article>
         <dialog id="modalArticulo">
             <article class="datosAgregar">
@@ -105,7 +80,7 @@
                     <input type="number" name="precio" id="precio" required>
                     <div>
                         <button type="button" id="botonCancelarArticulo" class="botonCancelar">Cancelar</button>
-                        <button type="submit" class="botonAgregar">Agregar</button>
+                        <button type="submit" id="botonAgregarArticulo" class="botonAgregar">Agregar</button>
                     </div>
                 </form>
             </article>
@@ -115,30 +90,12 @@
             <table>
                 <thead>
                     <tr>
-                        <th><button> Código ⇅ </button></th>
+                        <th><button id="botonOrdenArticulos"> Código ⇅ </button></th>
                         <th>Descripción</th>
                         <th>Precio</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>A001 ⭐</td>
-                        <td>Remera algodón básica</td>
-                        <td>$1000</td>
-                    </tr>
-                    <tr>
-                        <td>A002</td>
-                        <td>Zapatillas deportivas</td>
-                        <td>$300</td>
-                    </tr>
-                    <tr>
-                        <td>A003</td>
-                        <td>Gorra ajustable</td>
-                        <td>$300</td>
-                    </tr>
-                </tbody>
-            </table>
-            </tbody>
+                <tbody id="tablaArticulos"></tbody>
             </table>
             <p>Información: ⭐ Artículo más vendido.
                 (Mayor cantidad de unidades vendidas)</p>
@@ -149,39 +106,39 @@
         <h3 id="manejoTexto">Manejo de ventas</h3>
         <article class="alta">
             <h4>Alta de ventas</h4>
-            <button>Agregar venta</button>
+            <button id="botonAgregarVenta">Agregar venta</button>
         </article>
-        <article class="datosAgregar">
-            <h4> Datos de la venta a agregar </h4>
-            <form action="submit" class="formulario">
-                <p class="pVenta">Nro. 3</p>
-                <label class="labelVenta" for="articulo">Artículo</label>
-                <select name="articulo" id="articulo" required>
-                    <option value=""></option>
-                    <option value="A001">Remera algodón básica</option>
-                    <option value="A002">Zapatillas deportivas</option>
-                    <option value="A003">Gorra ajustable</option>
-                </select>
-                <label class="labelVenta" for="influencer">Influencer</label>
-                <select name="influencer" id="influencer" required>
-                    <option value=""></option>
-                    <option value="I001">Juan Pérez</option>
-                    <option value="I002">María García</option>
-                    <option value="I003">Carlos López</option>
-                </select>
-                <label class="labelVenta" for="cantidad">Cantidad</label>
-                <input class="inputNum" type="number" name="cantidad" id="cantidad" min="1" required>
-                <label class="labelVenta" for="medio">Medio de difusión</label>
-                <select name="medio" id="medio" required>
-                    <option value=""></option>
-                    <option value="instagram">1- Instagram</option>
-                    <option value="youtube">2- Youtube</option>
-                </select>
-                <div>
-                    <button type="button" class="botonCancelar">Cancelar</button>
-                    <button type="submit" class="botonAgregar">Agregar</button>
-                </div>
-            </form>
+        <dialog id="modalVenta">
+            <article class="datosAgregar">
+                <h4> Datos de la venta a agregar </h4>
+                <form id="formularioVenta" action="submit" class="formulario">
+                    <p class="pVenta">Nro. 3</p>
+                    <label class="labelVenta" for="articulo">Artículo</label>
+                    <select name="articulo" id="articulo" required>
+                        <option value=""></option>
+                    </select>
+                    <label class="labelVenta" for="influencer">Influencer</label>
+                    <select name="influencer" id="influencer" required>
+                        <option value=""></option>
+                    </select>
+                    <label class="labelVenta" for="cantidad">Cantidad</label>
+                    <input class="inputNum" type="number" name="cantidad" id="cantidad" min="1" required>
+                    <label class="labelVenta" for="medio">Medio</label>
+                    <select name="medio" id="medio" required>
+                        <option value=""></option>
+                        <option value="instagram">1- Instagram</option>
+                        <option value="youtube">2- Youtube</option>
+                        <option value="tiktok">3- TikTok</option>
+                        <option value="facebook">4- Facebook</option>
+                        <option value="twitter">5- Twitter</option>
+                        <option value="otro">6- Otro</option>
+                    </select>
+                    <div>
+                        <button type="button" id="botonCancelarVenta" class="botonCancelar">Cancelar</button>
+                        <button type="submit" id="botonAgregarVenta" class="botonAgregar">Agregar</button>
+                    </div>
+                </form>
+        </dialog>
         </article>
         <article class="tabla">
             <h4>Tabla de ventas (ordenada por número de ventas)</h4>
@@ -196,24 +153,7 @@
                         <th>Acción</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>A001</td>
-                        <td>Ana Pérez</td>
-                        <td>3</td>
-                        <td>1-Instagram</td>
-                        <td><button>❌</button></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>A002</td>
-                        <td>Juan Gomez</td>
-                        <td>1</td>
-                        <td>2- Youtube</td>
-                        <td><button>❌</button></td>
-                    </tr>
-                </tbody>
+                <tbody id="tablaVentas"></tbody>
             </table>
         </article>
         <article>
@@ -227,6 +167,8 @@
     </footer>
 
 </body>
+
+<script src="logica/clases.js"></script>
 <script src="logica/logica.js"></script>
 
 </html>
