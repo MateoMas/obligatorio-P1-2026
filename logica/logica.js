@@ -105,12 +105,10 @@ function actualizarSelects() {
     });
 }
 
-idArticuloVenta.addEventListener("click", actualizarSelects);
-idInfluencerVenta.addEventListener("click", actualizarSelects);
-
 let ventas = [];
 
 botonAgregarVenta.addEventListener("click", () => {
+    actualizarSelects();
     modalVenta.showModal();
 });
 
@@ -124,8 +122,11 @@ formVenta.addEventListener("submit", (e) => {
     const influencerSeleccionado = influencers.find(influencer => influencer.mail === idInfluencerVenta.value);
     const nuevaVenta = new Venta(influencerSeleccionado, articuloSeleccionado, parseInt(cantidadVenta.value), medioVenta.value);
     ventas.push(nuevaVenta);
+    influencerSeleccionado.totalCobrar += parseFloat(articuloSeleccionado.precio * parseFloat(cantidadVenta.value) * influencerSeleccionado.comision) / 100;
     formVenta.reset();
     modalVenta.close();
+    generarTablaVentas();
+    generarTablaInfluencers();
 });
 
 const iconoTopComision = "🔥";
@@ -159,7 +160,13 @@ function generarTablaInfluencers() {
         celdaComision.textContent = `${influencer.comision}%`;
         celdaTotalCobrar.textContent = `$${influencer.totalCobrar}`;
         celdaIcono.textContent = definirIcono(influencer);
-        celdaDetalle.innerHTML = `<button class="detalleVenta" data-mail="${influencer.mail}">Detalle</button>`;
+        const botonDetalle = document.createElement("button");
+        botonDetalle.classList.add("detalleVenta");
+        botonDetalle.textContent = "Detalle";
+        botonDetalle.addEventListener("click", () => {
+            mostrarDetalleVentas(influencer);
+        });
+        celdaDetalle.appendChild(botonDetalle);
         fila.appendChild(celdaNombre);
         fila.appendChild(celdaMail);
         fila.appendChild(celdaComision);
@@ -168,6 +175,22 @@ function generarTablaInfluencers() {
         fila.appendChild(celdaDetalle);
         tabla.appendChild(fila);
     });
+}
+
+function mostrarDetalleVentas(influencer) {
+    const ventasInfluencer = ventas.filter(venta => venta.influencer.mail === influencer.mail);
+    if (ventasInfluencer.length > 0) {
+        let detalle = "Ventas:\n";
+        ventasInfluencer.forEach(venta => {
+            const total = venta.articulo.precio * venta.cantidad;
+            const comision = parseFloat(venta.articulo.precio * venta.cantidad * influencer.comision) / 100;
+            const nro = ventas.indexOf(venta) + 1;
+            detalle += `Nro ${nro}- ${venta.cantidad}-${venta.articulo.codigo}- $${venta.articulo.precio}c/u Total $${total}- Comision: $${comision}\n`;
+        });
+        alert(detalle);
+    } else {
+        alert(`${influencer.nombre} no tiene ventas registradas.`);
+    }
 }
 
 function mayorComision(influencer) {
@@ -256,6 +279,41 @@ function generarTablaArticulos() {
         fila.appendChild(celdaPrecio);
         tabla.appendChild(fila);
     });
+}
+
+function generarTablaVentas() {
+    const tabla = document.getElementById("tablaVentas");
+    tabla.innerHTML = "";
+    ventas.forEach(venta => {
+        const fila = document.createElement("tr");
+        const celdaNumVenta = document.createElement("td");
+        const celdaInfluencer = document.createElement("td");
+        const celdaArticulo = document.createElement("td");
+        const celdaCantidad = document.createElement("td");
+        const celdaMedio = document.createElement("td");
+        const celdaBorrarVenta = document.createElement("td");
+        celdaNumVenta.textContent = ventas.indexOf(venta) + 1;
+        celdaArticulo.textContent = venta.articulo.codigo;
+        celdaInfluencer.textContent = venta.influencer.nombre;
+        celdaCantidad.textContent = venta.cantidad;
+        celdaMedio.textContent = venta.medio;
+        celdaBorrarVenta.innerHTML = `<button class="borrarVenta" onclick="borrarVenta(${ventas.indexOf(venta)})">❌</button>`;
+        fila.appendChild(celdaNumVenta);
+        fila.appendChild(celdaInfluencer);
+        fila.appendChild(celdaArticulo);
+        fila.appendChild(celdaCantidad);
+        fila.appendChild(celdaMedio);
+        fila.appendChild(celdaBorrarVenta);
+        tabla.appendChild(fila);
+    });
+}
+
+function borrarVenta(index) {
+    const venta = ventas[index];
+    venta.influencer.totalCobrar -= parseFloat(venta.articulo.precio * parseFloat(venta.cantidad) * venta.influencer.comision) / 100;
+    ventas.splice(index, 1);
+    generarTablaVentas();
+    generarTablaInfluencers();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
