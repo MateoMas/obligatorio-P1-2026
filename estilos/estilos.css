@@ -213,3 +213,18 @@ p {
 option {
     width: 100%;
 }
+
+.graficoBurbujas {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.graficoBurbujas div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}

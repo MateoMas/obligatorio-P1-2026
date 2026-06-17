@@ -41,13 +41,13 @@ class Sistema {
     }
 
     mostrarDetalleVentas(influencer) {
-        const ventasInfluencer = this.ventas.filter(venta => venta.influencer.mail === influencer.mail);
+        let ventasInfluencer = this.ventas.filter(venta => venta.influencer.mail === influencer.mail);
         if (ventasInfluencer.length > 0) {
             let detalle = "Ventas:\n";
             ventasInfluencer.forEach(venta => {
-                const total = venta.articulo.precio * venta.cantidad;
-                const comision = parseFloat(venta.articulo.precio * venta.cantidad * influencer.comision) / 100;
-                const nro = sistema.ventas.indexOf(venta) + 1;
+                let total = venta.articulo.precio * venta.cantidad;
+                let comision = parseFloat(venta.articulo.precio * venta.cantidad * influencer.comision) / 100;
+                let nro = sistema.ventas.indexOf(venta) + 1;
                 detalle += `Nro ${nro}- ${venta.cantidad}-${venta.articulo.codigo}- $${venta.articulo.precio}c/u Total $${total}- Comision: $${comision}\n`;
             });
             alert(detalle);
@@ -57,7 +57,7 @@ class Sistema {
     }
 
     borrarVenta(index) {
-        const venta = this.ventas[index];
+        let venta = this.ventas[index];
         venta.influencer.totalCobrar -= parseFloat(venta.articulo.precio * parseFloat(venta.cantidad) * venta.influencer.comision) / 100;
         this.ventas.splice(index, 1);
         generarTablaVentas();
