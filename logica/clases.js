@@ -1,3 +1,5 @@
+// Código hecho por Mateo Más Lukinskas (375845) y Luca Piacenza (360347)
+
 class Sistema {
 
     constructor() {
@@ -6,6 +8,7 @@ class Sistema {
         this.ventas = [];
     }
 
+    // Verifica si ya existe un influencer con el mismo correo electrónico.
     comprobarMailDuplicado(mail) {
         for (let i = 0; i < this.influencers.length; i++) {
             if (this.influencers[i].mail === mail) {
@@ -15,6 +18,7 @@ class Sistema {
         return false;
     }
 
+    // Verifica si ya existe un artículo con el mismo código.
     comprobarCodigoDuplicado(codigo) {
         for (let i = 0; i < this.articulos.length; i++) {
             if (this.articulos[i].codigo === codigo) {
@@ -24,6 +28,7 @@ class Sistema {
         return false;
     }
 
+    // Ordena la lista de influencers o artículos según el criterio indicado.
     ordenarTabla(ordenAscendente, tipo) {
         if (tipo === "inf") {
             if (ordenAscendente) {
@@ -40,6 +45,7 @@ class Sistema {
         }
     }
 
+    // Muestra un alert con las ventas registradas para un influencer específico.
     mostrarDetalleVentas(influencer) {
         let ventasInfluencer = this.ventas.filter(venta => venta.influencer.mail === influencer.mail);
         if (ventasInfluencer.length > 0) {
@@ -56,14 +62,18 @@ class Sistema {
         }
     }
 
+    // Elimina una venta y actualiza los totales y tablas asociadas.
     borrarVenta(index) {
         let venta = this.ventas[index];
         venta.influencer.totalCobrar -= parseFloat(venta.articulo.precio * parseFloat(venta.cantidad) * venta.influencer.comision) / 100;
         this.ventas.splice(index, 1);
         generarTablaVentas();
         generarTablaInfluencers();
+        generarTablaArticulos();
+        generarGrafico();
     }
 
+    // Indica si el influencer tiene la comisión más alta del sistema.
     influencerMayorComision(influencer) {
         for (let i = 0; i < this.influencers.length; i++) {
             if (this.influencers[i].comision > influencer.comision) {
@@ -73,6 +83,7 @@ class Sistema {
         return true;
     }
 
+    // Determina si el influencer participó en la venta de mayor valor.
     ventaMasCara(influencer) {
         if (this.ventas.length !== 0) {
             let ventaMasCara = this.ventas[0];
@@ -88,6 +99,7 @@ class Sistema {
         return false;
     }
 
+    // Señala cuál artículo fue el más vendido y lo marca visualmente.
     comprobarMasVendido(articulo) {
         let masVendido = this.articulos[0];
         let maxVendido = 0;

@@ -1,3 +1,5 @@
+// Código hecho por Mateo Más Lukinskas (375845) y Luca Piacenza (360347)
+
 let botonAgregarInfluencer = document.getElementById("botonAgregarInfluencer");
 let modalInfluencer = document.getElementById("modalInfluencer");
 let botonCancelarInfluencer = document.getElementById("botonCancelarInfluencer");
@@ -68,6 +70,7 @@ let idInfluencerVenta = document.getElementById("influencer");
 let cantidadVenta = document.getElementById("cantidad");
 let medioVenta = document.getElementById("medio");
 
+// Actualiza los selectores del formulario de ventas con los artículos e influencers disponibles.
 function actualizarSelects() {
     idArticuloVenta.innerHTML = "";
     idInfluencerVenta.innerHTML = "";
@@ -119,6 +122,7 @@ botonOrdenInfluencers.addEventListener("click", () => {
     generarTablaInfluencers();
 });
 
+// Crea y muestra la tabla de influencers con sus datos y estado visual.
 function generarTablaInfluencers() {
     let tabla = document.getElementById("tablaInfluencers");
     tabla.innerHTML = "";
@@ -153,6 +157,7 @@ function generarTablaInfluencers() {
     });
 }
 
+// Determina qué iconos mostrar según el estado del influencer.
 function definirIcono(influencer) {
     let iconos = "";
     if (influencer.totalCobrar === 0) {
@@ -173,6 +178,7 @@ botonOrdenArticulos.addEventListener("click", () => {
     generarTablaArticulos();
 });
 
+// Genera la tabla de artículos con su precio y descripción.
 function generarTablaArticulos() {
     let tabla = document.getElementById("tablaArticulos");
     tabla.innerHTML = "";
@@ -192,6 +198,7 @@ function generarTablaArticulos() {
     });
 }
 
+// Muestra el listado de ventas registradas y permite borrarlas desde la tabla.
 function generarTablaVentas() {
     let tabla = document.getElementById("tablaVentas");
     tabla.innerHTML = "";
@@ -232,13 +239,14 @@ let burbujaX = document.getElementById("colorX");
 let burbujaTK = document.getElementById("colorTk");
 let burbujaFB = document.getElementById("colorFb");
 let burbujaOT = document.getElementById("colorOt");
-let porcentajeIG = document.getElementById("porcentajeIg");
-let porcentajeYT = document.getElementById("porcentajeYt");
-let porcentajeX = document.getElementById("porcentajeX");
-let porcentajeTK = document.getElementById("porcentajeTk");
-let porcentajeFB = document.getElementById("porcentajeFb");
-let porcentajeOT = document.getElementById("porcentajeOt");
+let montoIG = document.getElementById("montoIg");
+let montoYT = document.getElementById("montoYt");
+let montoX = document.getElementById("montoX");
+let montoTK = document.getElementById("montoTk");
+let montoFB = document.getElementById("montoFb");
+let montoOT = document.getElementById("montoOt");
 
+// Actualiza el gráfico de medios con los datos de ventas actuales.
 function generarGrafico() {
     if (sistema.ventas.length === 0) {
         burbujaIG.style.fontSize = "10px";
@@ -247,12 +255,12 @@ function generarGrafico() {
         burbujaTK.style.fontSize = "10px";
         burbujaFB.style.fontSize = "10px";
         burbujaOT.style.fontSize = "10px";
-        porcentajeIG.textContent = "0%";
-        porcentajeYT.textContent = "0%";
-        porcentajeX.textContent = "0%";
-        porcentajeTK.textContent = "0%";
-        porcentajeFB.textContent = "0%";
-        porcentajeOT.textContent = "0%";
+        montoIG.textContent = "0";
+        montoYT.textContent = "0";
+        montoX.textContent = "0";
+        montoTK.textContent = "0";
+        montoFB.textContent = "0";
+        montoOT.textContent = "0";
         return;
     }
 
@@ -265,8 +273,18 @@ function generarGrafico() {
         Otro: 0
     };
 
+    let montosTotales = {
+        Instagram: 0,
+        Youtube: 0,
+        X: 0,
+        TikTok: 0,
+        Facebook: 0,
+        Otro: 0
+    }
+    
     sistema.ventas.forEach(venta => {
         totales[venta.medio] += 1;
+        montosTotales[venta.medio] += venta.articulo.precio * venta.cantidad;
     });
 
     let totalVentas = 0;
@@ -296,66 +314,67 @@ function generarGrafico() {
     let cantidadVentasMedioMenosVentas = totales[medioMenosVentas];
     Object.keys(totales).forEach(medio => {
         if (medioMasVentas === medio || cantidadVentasMedioMasVentas === totales[medio]) {
-            generarGraficoMedio(medio, "mas", (totales[medio] / totalVentas) * 100);
+            generarGraficoMedio(medio, "mas", (totales[medio] / totalVentas) * 100, montosTotales[medio]);
         }
         else if (medioMenosVentas === medio || cantidadVentasMedioMenosVentas === totales[medio]) {
-            generarGraficoMedio(medio, "menos", (totales[medio] / totalVentas) * 100);
+            generarGraficoMedio(medio, "menos", (totales[medio] / totalVentas) * 100, montosTotales[medio]);
         }
         else if (totales[medio] === 0) {
             generarGraficoMedio(medio, "normal", 0);
         }
         else {
-            generarGraficoMedio(medio, "normal", (totales[medio] / totalVentas) * 100);
+            generarGraficoMedio(medio, "normal", (totales[medio] / totalVentas) * 100, montosTotales[medio]);
         }
     });
 
 }
 
-function generarGraficoMedio(medio, tipo, porcentaje) {
+// Ajusta el tamaño y el texto de cada burbuja del gráfico según el medio y su nivel de ventas.
+function generarGraficoMedio(medio, tipo, monto, montoTotal) {
     let burbuja;
-    let porcentajeElemento;
-    porcentaje = Math.round(porcentaje);
+    let montoElemento;
+    monto = Math.round(monto);
     switch (medio) {
         case "Instagram":
             burbuja = burbujaIG;
-            porcentajeElemento = porcentajeIG;
+            montoElemento = montoIG;
             break;
         case "Youtube":
             burbuja = burbujaYT;
-            porcentajeElemento = porcentajeYT;
+            montoElemento = montoYT;
             break;
         case "X":
             burbuja = burbujaX;
-            porcentajeElemento = porcentajeX;
+            montoElemento = montoX;
             break;
         case "TikTok":
             burbuja = burbujaTK;
-            porcentajeElemento = porcentajeTK;
+            montoElemento = montoTK;
             break;
         case "Facebook":
             burbuja = burbujaFB;
-            porcentajeElemento = porcentajeFB;
+            montoElemento = montoFB;
             break;
         case "Otro":
             burbuja = burbujaOT;
-            porcentajeElemento = porcentajeOT;
+            montoElemento = montoOT;
             break;
     }
 
     if (tipo === "mas") {
         burbuja.style.fontSize = "110px";
-        porcentajeElemento.textContent = porcentaje + "%";
+        montoElemento.textContent = "Ganancias totales: " + montoTotal + " (" + monto + "% de ventas fueron por este medio)";
     }
     else if (tipo === "menos") {
         burbuja.style.fontSize = "10px";
-        porcentajeElemento.textContent = porcentaje + "%";
+        montoElemento.textContent = "Ganancias totales: " + montoTotal + " (" + monto + "% de ventas fueron por este medio)";
     }
-    else if (tipo === "normal" && porcentaje === 0) {
+    else if (tipo === "normal" && monto === 0) {
         burbuja.style.fontSize = "5px";
-        porcentajeElemento.textContent = "0%";
+        montoElemento.textContent = "0";
     }
     else {
-        burbuja.style.fontSize = (porcentaje + 10) + "px";
-        porcentajeElemento.textContent = porcentaje + "%";
+        burbuja.style.fontSize = (monto + 10) + "px";
+        montoElemento.textContent = "Ganancias totales: " + montoTotal + " (" + monto + "% de ventas fueron por este medio)";
     }
 }
